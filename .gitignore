@@ -29,12 +29,12 @@ replay_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/java
 
-# ===== このプロジェクト固有（テンプレに無いので手動で追加）=====
+
 # JDK（道具そのもの・371MBある・絶対に載せない）
 oracleJdk-26.jdk/
 *.jdk/
 
-# macOS が勝手に作るゴミ
+
 .DS_Store
 
 # ビルド結果の置き場
