@@ -15,7 +15,7 @@ public class MatchService {
   public void registerMatchDetails(Scanner scan) {
     Match m = new Match();
       //User Input ID Here.
-      System.out.println("Please Input Id Number Here. : ");
+      System.out.println("Please Input ID Number Here. : ");
       int idNumber = scan.nextInt();
       m.setId(idNumber);
 
@@ -59,9 +59,9 @@ public class MatchService {
 
       System.out.println("==================");
       System.out.printf(
-              "%d: %n %s %d - %s %d %n",
+              "%d: %n %s %d - %d %s  %n",
               m.getId(), m.getHomeTeam(), m.getHomeTeamPredictScore(),
-              m.getAwayTeam(), m.getAwayTeamPredictScore()
+              m.getAwayTeamPredictScore(), m.getAwayTeam()
       );
       System.out.println("==================");
     }
@@ -69,11 +69,77 @@ public class MatchService {
 
   //------- Updating -------
   public void updateMatches(Scanner scan) {
+    System.out.println("Please Input ID Here.");
+    int updateNumber = scan.nextInt();
+    scan.nextLine();
+
+    //Prepare Empty iterable Here.
+    Match found = null;
+
+    //Searching ID by for Roop % if Sentence.
+    for (Match m : matches){
+      if (m.getId() == updateNumber) {
+        found = m;
+        break;
+      }
+    }
+
+    //If id is not found, Process is end.
+    if (found == null) {
+      System.out.println("Match's ID is not found.");
+      return;
+    }
+
+    //If ID is found, Inserting The Real Matches Score Here.
+
+      System.out.println("Please Input Here the Your Supporting Team's Real Score.");
+      int homeTeamRealScore = scan.nextInt();
+      found.setHomeTeamRealScore(homeTeamRealScore);
+
+      System.out.println("Please Input Here The Your Away Team's Real Score.");
+      int awayTeamRealScore = scan.nextInt();
+      found.setAwayTeamRealScore(awayTeamRealScore);
+
+      //Matches Data With Real & Prediction Score.
+      System.out.println("Here is Your Prediction(Up) & Real Score(Down).");
+      System.out.println("=================");
+      System.out.printf(
+              "%d: %n %s %d - %d %s %n %s %d - %d %s %n",
+              found.getId(), found.getHomeTeam(), found.getHomeTeamPredictScore(),  found.getAwayTeamPredictScore(),found.getAwayTeam(),
+              found.getHomeTeam(), found.getHomeTeamRealScore(),  found.getAwayTeamRealScore(), found.getAwayTeam()
+              );
+
+      System.out.println("=================");
+
+
+
+      System.out.println("Matches Detail is Updated.");
+
 
   }
 
   //------- Deleting -------
   public void deleteMatches(Scanner scan) {
+    int deleteNumber = scan.nextInt();
+    scan.nextLine();
+
+    Match found = null;
+
+    for(Match m : matches) {
+      if(m.getId() == deleteNumber) {
+        found = m;
+        break;
+      }
+    }
+
+    if (found == null) {
+      System.out.println("Sorry, ID is not Found.");
+    }
+
+    if (found != null) {
+      System.out.println("Please Input ID Number Here.");
+
+    }
     
   } 
 
