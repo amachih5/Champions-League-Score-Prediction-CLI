@@ -120,6 +120,7 @@ public class MatchService {
 
   //------- Deleting -------
   public void deleteMatches(Scanner scan) {
+    System.out.println("Please Input Number Here You wanna Delete.");
     int deleteNumber = scan.nextInt();
     scan.nextLine();
 
@@ -131,13 +132,15 @@ public class MatchService {
         break;
       }
     }
-
+    // If ID(found iterable) is NOT Found, Printing "Sorry, ID is not Found."
     if (found == null) {
       System.out.println("Sorry, ID is not Found.");
     }
 
+    //If ID(found iterable) is just Found, The Number User wanna Delete is Removed WITH remove Method.
     if (found != null) {
-      System.out.println("Please Input ID Number Here.");
+      matches.remove(found);
+      System.out.println("Completed Deleting! ID = " + deleteNumber);
 
     }
     
