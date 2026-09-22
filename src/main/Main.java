@@ -2,7 +2,6 @@ package main;
 
 import constant.MenuConstant;
 import service.MatchService;
-import judge.Judge;
 import java.util.Scanner;
 
 
@@ -21,11 +20,6 @@ public class Main {
 
       //CRUD Class callback.
       MatchService matchService = new MatchService();
-
-      //Judge Class callback.
-      Judge judge = new Judge();
-
-
 
       /*
       Control Flow (Depending on User chooses Number, Going Each Classes.)
@@ -79,12 +73,11 @@ public class Main {
 
             //chooses 5, It goes judge/Judge.
           case 5:
+            matchService.scoreJudge();
             break;
 
             default:
               System.out.println("Choose Number from 0 to 5.");
-
-
 
 
         }
