@@ -1,4 +1,4 @@
-# Champions League Prediction CLI(サッカースコア予想CLI)
+# Champions League Judging CLI(サッカースコア予想CLI)
 
 ## 専門用語一覧
 サッカーが全くわからない方用です。
@@ -48,6 +48,26 @@ CLのスコア/勝ち点予想CLIです。<br>
   - たまたまテレビで見てた試合で、ロナウジーニョの魔法のようなドリブルに心を打たれ、それ以降熱狂的なクレになった。
   - 勝敗予想でCLがある期間はとてもワクワクしているが、お金をかけずに楽しみたい。
 
+## 主要機能一覧
+ - constant/Constant.java<br>
+    - メニューの表示を担当します。
+    - 登録(Registering)、読み込み(Reading)/更新(Updating)/削除(Deleting)の表示画面。
+ 
+ - main/Main.java
+    - 実行担当です。
+    - 入力した番号によって登録/読み込み・表示/更新/削除に処理を任せるようにしました。
+ 
+ - model/model/Match.java
+    - データ保存担当です。
+    ``` java
+    private int id //通し番号
+    private String homeTeam //ホームチーム
+    private String awayTeam //アウェイチーム
+    private int 
+    private int 
+    private int 
+    private int 
+    ```
 
 
   

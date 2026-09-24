@@ -3,15 +3,21 @@ package main;
 import constant.MenuConstant;
 import service.MatchService;
 import java.util.Scanner;
+import util.inputUtil;
 
 
 public class Main {
-
   //The Running Place Where Program to work
   public static void main(String[] args) {
+
+
+
     try (Scanner scan = new Scanner(System.in)) {
       System.out.println("Please input YOUR NAME. : ");
-      String name = scan.next();
+
+      inputUtil input = new inputUtil();
+
+      String name = input.checkUserName(scan) ;
       System.out.println("Hello, " + name + "! Let's Predict Matches Score! ");
 
       //Callback Menu List's Class

@@ -1,7 +1,7 @@
 package service;
 
 import model.Match;
-
+import util.inputUtil;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,36 +10,38 @@ public class MatchService {
     //Defining Empty ArrayList Here.
     private final ArrayList<Match> matches = new ArrayList<>();
 
+    private final inputUtil input = new inputUtil();
+
 
     // -------- Registering/Saving  ---------
     public void registerMatchDetails(Scanner scan) {
         Match m = new Match();
         //User Input ID Here.
         System.out.println("Please Input ID Number Here. : ");
-        int idNumber = scan.nextInt();
+        int idNumber = input.readNumber(scan);
         m.setId(idNumber);
 
-        scan.nextLine();
+
 
         // User Input Their Supporting Team Here .
-        System.out.println("Please Input Your Supporting Team.: ");
-        String homeTeam = scan.nextLine();
+        System.out.println("Please Input Your Supporting Team Here.: ");
+        String homeTeam = input.readingTeamName(scan);
         m.setHomeTeam(homeTeam);
 
 
         //They Input Their Away Team Here.
-        System.out.println("Please Input Your Away Team.");
-        String awayTeam = scan.nextLine();
+        System.out.println("Please Input Your Away Team Here.");
+        String awayTeam = input.readingTeamName(scan);
         m.setAwayTeam(awayTeam);
 
         //They Input Score to Predict Them Supporting Team.
-        System.out.println("Please Input Here Your Supporting Team's Prediction Score.");
-        int homeTeamPredictionScore = scan.nextInt();
+        System.out.println("Please Input Your Supporting Team's Prediction Score Here.");
+        int homeTeamPredictionScore = input.readNumber(scan);
         m.setHomeTeamPredictScore(homeTeamPredictionScore);
 
         //They Input Score to Predict Them Away Team.
-        System.out.println("Please Input Here Your Away Team's Prediction Score.");
-        int awayTeamPredictionScore = scan.nextInt();
+        System.out.println("Please Input Your Away Team's Prediction Score Here.");
+        int awayTeamPredictionScore = input.readNumber(scan);
         m.setAwayTeamPredictScore(awayTeamPredictionScore);
 
         //They add ArrayList of match iterable in Home & Away Team's Name & Prediction Score.
@@ -69,8 +71,8 @@ public class MatchService {
     //------- Updating -------
     public void updateMatches(Scanner scan) {
         System.out.println("Please Input ID Here.");
-        int updateNumber = scan.nextInt();
-        scan.nextLine();
+        int updateNumber = input.readNumber(scan);
+
 
         //Prepare Empty iterable Here.
         Match found = null;
@@ -92,11 +94,11 @@ public class MatchService {
         //If ID is found, Inserting The Real Matches Score Here.
 
         System.out.println("Please Input Here the Your Supporting Team's Real Score.");
-        int homeTeamRealScore = scan.nextInt();
+        int homeTeamRealScore = input.readNumber(scan);
         found.setHomeTeamRealScore(homeTeamRealScore);
 
         System.out.println("Please Input Here The Your Away Team's Real Score.");
-        int awayTeamRealScore = scan.nextInt();
+        int awayTeamRealScore = input.readNumber(scan);
         found.setAwayTeamRealScore(awayTeamRealScore);
 
         //Matches Data With Real & Prediction Score.
@@ -119,8 +121,8 @@ public class MatchService {
     //------- Deleting -------
     public void deleteMatches(Scanner scan) {
         System.out.println("Please Input Number Here You wanna Delete.");
-        int deleteNumber = scan.nextInt();
-        scan.nextLine();
+        int deleteNumber = input.readNumber(scan);
+
 
         Match found = null;
 
