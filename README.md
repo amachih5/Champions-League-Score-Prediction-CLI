@@ -1,4 +1,4 @@
-# Champions League Judging CLI(サッカースコア予想CLI)
+# Champions League Prediction CLI(サッカースコア予想CLI)
 
 ## 専門用語一覧
 サッカーが全くわからない方用です。
@@ -48,26 +48,118 @@ CLのスコア/勝ち点予想CLIです。<br>
   - たまたまテレビで見てた試合で、ロナウジーニョの魔法のようなドリブルに心を打たれ、それ以降熱狂的なクレになった。
   - 勝敗予想でCLがある期間はとてもワクワクしているが、お金をかけずに楽しみたい。
 
-## 主要機能一覧
- - constant/Constant.java<br>
-    - メニューの表示を担当します。
-    - 登録(Registering)、読み込み(Reading)/更新(Updating)/削除(Deleting)の表示画面。
- 
- - main/Main.java
-    - 実行担当です。
-    - 入力した番号によって登録/読み込み・表示/更新/削除に処理を任せるようにしました。
- 
- - model/model/Match.java
-    - データ保存担当です。
-    ``` java
-    private int id //通し番号
-    private String homeTeam //ホームチーム
-    private String awayTeam //アウェイチーム
-    private int 
-    private int 
-    private int 
-    private int 
-    ```
+## 主要機能一覧（CRUD ＋ 判定）
+
+メニューから番号を選んで操作します。
+
+| No. | 機能名 | 英語 | 概要 |
+| --- | --- | --- | --- |
+| 1 | 予想を登録 | Registering | 対戦カードと予想スコアを入力して1件追加 |
+| 2 | 一覧・比較表示 | Reading % Showing List | 登録した試合を一覧表示（予想 vs 実際） |
+| 3 | 更新 | Updating | 番号を指定して実際の結果を入力／予想を修正 |
+| 4 | 削除 | Deleting | 番号を指定して1件削除 |
+| 5 | 予想 vs 現実 判定 | ＋α(Judging) | 的中した試合数・的中率・予想ポイントを算出 |
+| 0 | 終了 | Exit | プログラムを終了 |
+
+## 使い方（実行方法）
+
+開発環境: Java 21（Eclipse Temurin 21.0.11 LTS）
+
+```bash
+# src 直下でコンパイル
+javac -d bin $(find src -name "*.java")
+
+# 実行（エントリポイントは main.Main）
+java -cp bin main.Main
+```
 
 
-  
+## クラス構成 / 各クラスの役割
+
+| クラス | 役割 |
+| --- | --- |
+| `main/Main` | プログラムの起動と全体制御。メニューをループさせる司令塔 |
+| `constant/MenuConstant` | メニュー表示と番号の受け取り |
+| `service/MatchService` | 登録・一覧・更新・削除・判定の処理本体（`ArrayList<Match>` を保持） |
+| `model/Match` | 試合1件のデータを保持するModelクラス（getter/setterのみ） |
+| `util/InputUtil` | 入力の受付と入力チェック（数字チェック・チーム名チェック） |
+
+```
+src
+├── main
+│   └── Main.java
+├── constant
+│   └── MenuConstant.java
+├── service
+│   └── MatchService.java
+├── model
+│   └── Match.java
+└── util
+    └── InputUtil.java
+```
+
+## データ設計
+
+試合1件のデータは `Match` クラスに集約し、`ArrayList<Match>` に貯めていきます。
+
+```java
+private int id;                      // 通し番号
+private String homeTeam;             // ホームチーム
+private String awayTeam;             // アウェイチーム
+private int homeTeamPredictionScore; // ホームチームのスコア（予想）
+private int awayTeamPredictionScore; // アウェイチームのスコア（予想）
+
+// Update機能で試合後に入力する「実際のスコア」（試合前は null）
+private Integer homeTeamRealScore;   // ホームチームのスコア（実際）
+private Integer awayTeamRealScore;   // アウェイチームのスコア（実際）
+```
+
+- 実際スコアは試合前を `null` にできるよう `Integer`、予想スコアは `int` にしている。
+- 勝ち点はフィールドに持たず、スコアからその都度計算する（勝3・分1・敗0）。
+
+## 使用技術
+
+- Java 21（CLIアプリケーション）
+- `Scanner`（キーボード入力）
+- `ArrayList`（試合データの保管）
+- 条件分岐( `if文` `switch-case-default`) / 繰り返し(`for文`/ `while true`) / 例外処理（`try-catch`）
+- オブジェクト指向（役割ごとのクラス分割）
+- Git / GitHub（ソースコード管理）
+
+## フローチャート
+
+```mermaid
+flowchart TB
+A([開始]) --> B[メニュー表示] --> C[/番号を入力/] --> D{入れた番号は？}
+D -->|1| E1[予想を登録]
+D -->|2| E2[一覧・比較表示]
+D -->|3| E3[結果入力・予想更新]
+D -->|4| E4[予想を削除]
+D -->|5| E5[予想 vs 現実 判定]
+D -->|0| Z([終了])
+E1 --> B
+E2 --> B
+E3 --> B
+E4 --> B
+E5 --> B
+```
+
+## 工夫したところ / 苦労したこと
+
+### 工夫したところ
+- サッカーを知らない人向けに「専門用語一覧」を用意した。
+- `InputUtil` で入力チェック（数字以外・短すぎるチーム名を弾く／`try-catch` で例外処理）を実装し、文字を打っても落ちないようにした。
+- 一覧で「予想（上段）」と「実際（下段）」を並べ、ズレが一目で分かるようにした。
+- 独自の予想ポイント（的中 +3・ハズレ -3。ただし合計が 0 未満にならないよう調整）。
+
+### 苦労したこと
+- 実行時の `UnsupportedClassVersionError` → SDK と言語レベルを揃えて解決。
+- `nextInt` と `nextLine` を混ぜると入力がずれる罠 → 入力を `inputUtil.java`にある`readNumber` に統一して解決。
+- `CRUD` を別クラスに分けたくなったが、同じデータを扱うため 1 つの `MatchService` にメソッドで集約した。
+
+## 改善点
+
+- CSV でのデータ保存・読込（現状はアプリ終了で消えるメモリ保持のため）。
+- 「勝敗のみ的中」の判定を追加し、的中率をより詳細に。
+- 大会・節ごとの絞り込み表示。
+- 後期：この設計（Model / Service）を Spring Boot で Web アプリ化。
